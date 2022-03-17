@@ -13,7 +13,7 @@ if [ $(ls | wc -c) -lt 1 ]; then
 	echo "{ 0, 0, XK_Cancel }," >>  $outputfile
 	echo "};" >>  $outputfile
 	echo "" >>  $outputfile
-	return 0
+	exit 0
 fi
 
 echo "construct overlay"

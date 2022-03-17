@@ -1,6 +1,7 @@
 #!/bin/sh
 
 delimiter=$(./getdelimiter.sh)
+outputfileKeyActions="_keyactions.def"
 outputfileButtons="_buttonmods.def"
 outputfileLayers="_layers.def"
 outputfileLayersTmpName="_layers.def.name"
@@ -39,3 +40,13 @@ do
 done
 
 echo "};" >> $outputfileButtons
+echo "" >> $outputfileButtons
+
+echo "Keyaction keyactions[] = {" > $outputfileKeyActions
+for defline in $(cat _keyactions)
+do
+	key=$(printf "%s\n" "${defline}"| awk '{print $1}' FS="${delimiter}")
+	value=$(printf "%s\n" "${defline}" | awk '{print $2}' FS="${delimiter}")
+	printf "%s%s%s%s%s\n" "        { $key, " '"' "$value" '"' " }," >> $outputfileKeyActions
+done
+echo "};" >> $outputfileKeyActions
