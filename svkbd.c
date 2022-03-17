@@ -60,6 +60,11 @@ typedef struct {
 	unsigned int button;
 } Buttonmod;
 
+typedef struct {
+	KeySym mod;
+	char* action;
+} Keyaction;
+
 /* function declarations */
 static void printdbg(const char *fmt, ...);
 static void motionnotify(XEvent *e);
@@ -586,10 +591,71 @@ get_press_duration(void)
 void
 unpress(Key *k, KeySym buttonmod)
 {
-	int i;
+	int i,b,c;
 	Bool neutralizebuttonmod = False;
 
+
 	if (k) {
+		printdbg("k true\n");
+		char* action = "";
+		for (i = 0; i < LENGTH(keyactions); i++) {
+	                if (k->keysym == keyactions[i].mod){
+                        	action = keyactions[i].action;
+                	        break;
+        	        }
+	        }
+		if (action != ""){
+			printdbg("some action\n");
+			Bool breakfor = False;
+			for(b = 0; b < 5; b++){
+				switch (b){
+					case 0:
+						if(action == "cycle") {
+							cyclelayer();
+							breakfor = True;
+						}
+						break;
+					case 1:
+						if(action == "togglelayer") {
+							togglelayer();
+							breakfor = True;
+						}
+						break;
+					case 2:
+						if(action == "overlaytoggle") {
+							enableoverlays = !enableoverlays;
+							breakfor = True;
+						}
+						break;
+					case 3:
+						if(action == "break"){
+							running = False;
+							breakfor = True;
+						}
+						break;
+					case 4:
+						printdbg("jump to action\n");
+						printdbg("Action: ");
+						printdbg(action);
+						printdbg("\n");
+						for(c = 0; c < LENGTH(layer_names); c++) {
+							printdbg("layer_name: ");
+							printdbg(layer_names[c]);
+							printdbg("\n");
+							if (action == layer_names[c]) {
+								printdbg("name matched");
+								jumptolayer(c);
+								break;
+							}
+						}
+						break;
+				}
+				if(breakfor)
+					break;
+			}
+		}
+
+		/*
 		switch(k->keysym) {
 		case XK_Cancel:
 			cyclelayer();
@@ -606,6 +672,8 @@ unpress(Key *k, KeySym buttonmod)
 		default:
 			break;
 		}
+		*/
+		printdbg("Out of action case\n");
 	}
 
 	if ((pressbegin.tv_sec || pressbegin.tv_usec) && (enableoverlays || pressonrelease) && k && k->keysym == ispressingkeysym) {

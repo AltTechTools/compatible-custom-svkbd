@@ -15,6 +15,7 @@ keylineno=0
 islayersname=0
 islayerkey=0
 isbuttonmod=0
+iskeyactions=0
 layerlineno=0
 [ -d "$folder" ] || mkdir -- "$folder"
 while read -r line
@@ -32,6 +33,7 @@ else
 		isbuttonmod=0
 		islayerkey=0
 		islayersname=0
+		iskeyactions=0
 	fi
 	if [ "$line" = "static char* layer_names[LAYERS] = {" ]; then
 		echo "Layer naming definition..."
@@ -41,6 +43,7 @@ else
 		iskey=0
 		islayerkey=0
 		isbuttonmod=0
+		iskeyactions=0
 	fi
 	if [ "$line" = "static Key* available_layers[LAYERS] = {" ]; then
 		echo "Layer variable definition..."
@@ -49,6 +52,7 @@ else
 		isoverlay=0
 		iskey=0
 		isbuttonmod=0
+		iskeyactions=0
 		layerlineno=0
 	fi
 	if [ "$line" = "Buttonmod buttonmods[] = {" ]; then
@@ -58,6 +62,15 @@ else
 		islayersname=0
 		isoverlay=0
 		iskey=0
+		iskeyactions=0
+	fi
+	if [ "$line" = "Keyaction keyactions[] = {" ]; then
+		isbuttonmod=0
+		islayerkey=0
+		islayersname=0
+		isoverlay=0
+		iskey=0
+		iskeyactions=1
 	fi
 
 	if [ $islayersname -eq 1 ]; then
@@ -88,6 +101,16 @@ else
 			echo "$key$delimiter$button" >> "$mainpath/_buttonmods"
 		else
 			[ -e "$mainpath/_buttonmods" ] && rm "$mainpath/_buttonmods"
+		fi
+	fi
+	if [ $iskeyactions -eq 1 ]; then
+		if [ "$line" != "Keyaction keyactions[] = {" ]; then
+			cleanedline=$(echo "$line" | sed 's/ //g' | sed 's/{//' | sed 's/}//' | sed 's/"//g')
+			key=$(echo "${cleanedline}" | awk '{print $1}' FS=',')
+			keyaction=$(echo "${cleanedline}" | awk '{print $2}' FS=',')
+			echo "$key$delimiter$keyaction" >> "$mainpath/_keyactions"
+		else
+			[ -e "$mainpath/_keyactions" ] && rm "$mainpath/_keyactions"
 		fi
 	fi
 	if [ $overlayline -eq 1 ]; then

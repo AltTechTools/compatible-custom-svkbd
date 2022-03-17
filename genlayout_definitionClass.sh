@@ -29,3 +29,4 @@ echo "Copy one-time Definitions"
 cat "_overlay.def" >> $outputfile
 cat "_layers.def" >> $outputfile
 cat "_buttonmods.def" >> $outputfile
+cat "_keyactions.def" >> $outputfile

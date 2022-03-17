@@ -159,3 +159,11 @@ Buttonmod buttonmods[] = {
         { XK_Shift_L, Button2 },
         { XK_Alt_L, Button3 },
 };
+
+Keyaction keyactions[] = {
+        { XK_Cancel, "cycle" },
+        { XK_script_switch, "togglelayer" },
+        { XK_Mode_switch, "toggleslayer" },
+        { XK_KP_Insert, "overlaytoggle" },
+        { XK_Break, "break" },
+};
