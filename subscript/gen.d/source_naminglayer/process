@@ -1,0 +1,15 @@
+#!/bin/sh
+_layers_process(){
+	#$1 filename
+	case "$1" in
+	"!starting")
+		echo "_layer_before"
+	;;
+	"!ending")
+		echo "_layer_ending"
+	;;
+	*)
+		echo "_layer_default"
+	;;
+	esac
+}

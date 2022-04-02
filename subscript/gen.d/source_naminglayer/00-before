@@ -1,0 +1,9 @@
+#!/bin/sh
+_layer_before(){
+
+	_nameing_before2 "$1"
+	layer_delimiter=$(_gendelimiter)
+	layer_OFjmp="_layers.def.jump"
+
+	echo "static int autojumpto[LAYERS] = {" > $layer_OFjmp
+}

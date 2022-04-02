@@ -1,0 +1,12 @@
+#!/bin/sh
+_naming(){
+	echo "naming" > /dev/null
+}
+
+_layers(){
+	echo "layer"
+	_genfileloop "${1}" "layers"
+}
+
+_gensource "_naminglayer"
+echo "_layers"

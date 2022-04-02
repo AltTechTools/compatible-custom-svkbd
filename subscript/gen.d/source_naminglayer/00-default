@@ -1,0 +1,15 @@
+#!/bin/sh
+_layer_default(){
+	local valuejump=$(printf "%s\n" "${defline}" | awk '{print $3}' FS="${layer_delimiter}")
+	printf "%s\n" "        ${valuejump}," >> $layer_OFjmp
+	_nameing_default2 "${1}"
+}
+
+_layer_ending(){
+
+	echo "};" >> $layer_OFjmp
+	echo "" >> $layer_OFjmp
+	_nameing_ending2 "${1}"
+	cat $layer_OFjmp >> $naming_catOF
+	rm $layer_OFjmp
+}

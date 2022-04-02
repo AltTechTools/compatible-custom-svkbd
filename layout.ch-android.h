@@ -465,10 +465,11 @@ static Key overlay[OVERLAYS] = {
 };
 
 
-#define LAYERS 4
+#define LAYERS 5
 static char* layer_names[LAYERS] = {
        "ch-android",
        "shift",
+       "capslock",
        "andr-symbols1",
        "andr-symbols2",
 };
@@ -476,8 +477,17 @@ static char* layer_names[LAYERS] = {
 static Key* available_layers[LAYERS] = {
         keys_ch_android,
         keys_ch_androidShift,
+        keys_ch_androidCaps,
         keys_ch_andrsymb1,
         keys_ch_andrsymb2,
+};
+
+static int autojumpto[LAYERS] = {
+        -1,
+        0,
+        -1,
+        -1,
+        -1,
 };
 
 Buttonmod buttonmods[] = {

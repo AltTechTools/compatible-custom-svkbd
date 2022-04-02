@@ -1,0 +1,18 @@
+#!/bin/sh
+
+playerautojump(){
+	local line="$1"
+	if [ "$line" != "static int autojumpto[LAYERS] = {" ]; then
+		playerautojump_layernamingno=$(expr $playerautojump_layernamingno + 1)
+		local thisjmp=$(echo "$line" | awk '{print $1}' FS=',')
+		local thislayernaming=$(echo "$playerautojump_layernamingtext" | awk "NR==$playerautojump_layernamingno{print \$0}")
+		#echo "$thislayernaming"
+		echo "$thislayernaming$delimiter$thisjmp" >> "$mainpath/_layers"
+	else
+		echo "autojump variable"
+		[ -e "$mainpath/_layers" ] && rm "$mainpath/_layers"
+		playerautojump_layernamingno=0
+		playerautojump_layernamingtext=$(cat "$mainpath/_naming")
+	fi
+
+}
