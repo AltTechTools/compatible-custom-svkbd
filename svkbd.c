@@ -195,15 +195,18 @@ motionnotify(XEvent *e)
 void
 buttonpress(XEvent *e)
 {
+	fprintf(stderr, "buttonpress");
 	XButtonPressedEvent *ev = &e->xbutton;
 	Key *k;
 	KeySym mod = 0;
 	int i;
 
-	ispressing = True;
-
+	//ispressing = True;
+	//no keyspam on missing a valid position
 	if (!(k = findkey(ev->x, ev->y)))
 		return;
+
+	ispressing = True;
 
 	for (i = 0; i < LENGTH(buttonmods); i++) {
 		if (ev->button == buttonmods[i].button) {
