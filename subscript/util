@@ -1,8 +1,4 @@
 #!/bin/sh
-
-source "$PWD/util"
-return 0
-
 _gensource(){
 for f in gen.d/source$1/*
 do

@@ -3,5 +3,7 @@
 rm *.sh
 rm *.def
 rm *.len
-rm split.d
-rm psplit.d
+[ -L "split.d" ] && rm split.d
+[ -L "psplit.d" ] && rm psplit.d
+[ -L "gen.d" ] && rm gen.d
+[ -L "util" ] && rm util
