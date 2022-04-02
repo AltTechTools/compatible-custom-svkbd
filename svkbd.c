@@ -655,7 +655,7 @@ unpress(Key *k, KeySym buttonmod)
 					break;
 			}
 		}
-		
+
 		/*
 		switch(k->keysym) {
 		case XK_Cancel:
