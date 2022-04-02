@@ -1,0 +1,10 @@
+#!/bin/sh
+layerautojump(){
+if [ "$1" = "static int autojumpto[LAYERS] = {" ]; then
+	echo "playerautojump"
+	return 0
+fi
+return 1
+}
+
+echo "layerautojump"

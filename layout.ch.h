@@ -156,6 +156,11 @@ static Key* available_layers[LAYERS] = {
         keys_navigation,
 };
 
+static int autojumpto[LAYERS] = {
+        -1,
+        -1,
+};
+
 Buttonmod buttonmods[] = {
         { XK_Shift_L, Button2 },
         { XK_Alt_L, Button3 },

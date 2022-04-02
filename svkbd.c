@@ -90,6 +90,7 @@ static void hideoverlay();
 static void cyclelayer();
 static void updatelayerinfo();
 //tst - missed?
+static void jumptolayer_name(char* action);
 static void jumptolayer(int layerno);
 static void setlayer();
 static void togglelayer();
@@ -591,13 +592,12 @@ get_press_duration(void)
 void
 unpress(Key *k, KeySym buttonmod)
 {
-	int i,b,c;
+	int i,b;
 	Bool neutralizebuttonmod = False;
 
-
+	char* action = "";
 	if (k) {
 		printdbg("k true\n");
-		char* action = "";
 		for (i = 0; i < LENGTH(keyactions); i++) {
 	                if (k->keysym == keyactions[i].mod){
                         	action = keyactions[i].action;
@@ -634,20 +634,21 @@ unpress(Key *k, KeySym buttonmod)
 						}
 						break;
 					case 4:
-						printdbg("jump to action\n");
-						printdbg("Action: ");
-						printdbg(action);
-						printdbg("\n");
-						for(c = 0; c < LENGTH(layer_names); c++) {
-							printdbg("layer_name: ");
-							printdbg(layer_names[c]);
-							printdbg("\n");
-							if (action == layer_names[c]) {
-								printdbg("name matched");
-								jumptolayer(c);
-								break;
-							}
-						}
+//						printdbg("jump to action\n");
+//						printdbg("Action: ");
+//						printdbg(action);
+//						printdbg("\n");
+//						for(c = 0; c < LENGTH(layer_names); c++) {
+//							printdbg("layer_name: ");
+//							printdbg(layer_names[c]);
+//							printdbg("\n");
+//							if (action == layer_names[c]) {
+//								printdbg("name matched");
+//								jumptolayer(c);
+//								break;
+//							}
+//						}
+						jumptolayer_name(action);
 						break;
 				}
 				if(breakfor)
@@ -732,6 +733,10 @@ unpress(Key *k, KeySym buttonmod)
 		} else {
 			hideoverlay();
 		}
+	}
+	//tst new
+	if(autojumpto[currentlayer]>=0 && action==""){
+		jumptolayer(autojumpto[currentlayer]);
 	}
 }
 
@@ -1085,6 +1090,26 @@ setlayer(void)
 	numkeys = countkeys(layers[currentlayer]);
 	memcpy(&keys, layers[currentlayer], sizeof(Key) * numkeys);
 	countrows();
+}
+
+void
+jumptolayer_name(char* action){
+	int i;
+	printdbg("jump to action\n");
+        printdbg("Action: ");
+        printdbg(action);
+        printdbg("\n");
+        for(i = 0; i < LENGTH(layer_names); i++) {
+        	printdbg("layer_name: ");
+                printdbg(layer_names[i]);
+                printdbg("\n");
+                if (action == layer_names[i]) {
+                	printdbg("name matched");
+                        jumptolayer(i);
+                        break;
+                }
+        }
+
 }
 
 void
