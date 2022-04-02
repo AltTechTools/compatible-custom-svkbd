@@ -12,6 +12,7 @@ playersname(){
 		fi
 		#echo "tnm: $playersname_layersnametexts"
 	else
+		playersname_layersnametexts=""
 		echo "splitting layer names"
 	fi
 }
