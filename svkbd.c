@@ -60,6 +60,11 @@ typedef struct {
 	unsigned int button;
 } Buttonmod;
 
+typedef struct {
+	KeySym mod;
+	char* action;
+} Keyaction;
+
 /* function declarations */
 static void printdbg(const char *fmt, ...);
 static void motionnotify(XEvent *e);
@@ -85,6 +90,7 @@ static void hideoverlay();
 static void cyclelayer();
 static void updatelayerinfo();
 //tst - missed?
+static void jumptolayer_name(char* action);
 static void jumptolayer(int layerno);
 static void setlayer();
 static void togglelayer();
@@ -586,10 +592,71 @@ get_press_duration(void)
 void
 unpress(Key *k, KeySym buttonmod)
 {
-	int i;
+	int i,b;
 	Bool neutralizebuttonmod = False;
 
+	char* action = "";
 	if (k) {
+		printdbg("k true\n");
+		for (i = 0; i < LENGTH(keyactions); i++) {
+	                if (k->keysym == keyactions[i].mod){
+                        	action = keyactions[i].action;
+                	        break;
+        	        }
+	        }
+		if (action != ""){
+			printdbg("some action\n");
+			Bool breakfor = False;
+			for(b = 0; b < 5; b++){
+				switch (b){
+					case 0:
+						if(action == "cycle") {
+							cyclelayer();
+							breakfor = True;
+						}
+						break;
+					case 1:
+						if(action == "togglelayer") {
+							togglelayer();
+							breakfor = True;
+						}
+						break;
+					case 2:
+						if(action == "overlaytoggle") {
+							enableoverlays = !enableoverlays;
+							breakfor = True;
+						}
+						break;
+					case 3:
+						if(action == "break"){
+							running = False;
+							breakfor = True;
+						}
+						break;
+					case 4:
+//						printdbg("jump to action\n");
+//						printdbg("Action: ");
+//						printdbg(action);
+//						printdbg("\n");
+//						for(c = 0; c < LENGTH(layer_names); c++) {
+//							printdbg("layer_name: ");
+//							printdbg(layer_names[c]);
+//							printdbg("\n");
+//							if (action == layer_names[c]) {
+//								printdbg("name matched");
+//								jumptolayer(c);
+//								break;
+//							}
+//						}
+						jumptolayer_name(action);
+						break;
+				}
+				if(breakfor)
+					break;
+			}
+		}
+		
+		/*
 		switch(k->keysym) {
 		case XK_Cancel:
 			cyclelayer();
@@ -606,6 +673,8 @@ unpress(Key *k, KeySym buttonmod)
 		default:
 			break;
 		}
+		*/
+		printdbg("Out of action case\n");
 	}
 
 	if ((pressbegin.tv_sec || pressbegin.tv_usec) && (enableoverlays || pressonrelease) && k && k->keysym == ispressingkeysym) {
@@ -664,6 +733,10 @@ unpress(Key *k, KeySym buttonmod)
 		} else {
 			hideoverlay();
 		}
+	}
+	//tst new
+	if(autojumpto[currentlayer]>=0 && action==""){
+		jumptolayer(autojumpto[currentlayer]);
 	}
 }
 
@@ -1017,6 +1090,26 @@ setlayer(void)
 	numkeys = countkeys(layers[currentlayer]);
 	memcpy(&keys, layers[currentlayer], sizeof(Key) * numkeys);
 	countrows();
+}
+
+void
+jumptolayer_name(char* action){
+	int i;
+	printdbg("jump to action\n");
+        printdbg("Action: ");
+        printdbg(action);
+        printdbg("\n");
+        for(i = 0; i < LENGTH(layer_names); i++) {
+        	printdbg("layer_name: ");
+                printdbg(layer_names[i]);
+                printdbg("\n");
+                if (action == layer_names[i]) {
+                	printdbg("name matched");
+                        jumptolayer(i);
+                        break;
+                }
+        }
+
 }
 
 void
