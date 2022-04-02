@@ -1,0 +1,23 @@
+#!/bin/sh
+_key_before(){
+
+key_delimiter=$(_gendelimiter)
+key_OF="../${folder}.def"
+key_catOF="../_0keys.def"
+key_outputdef=$(echo $folder | tr '[:lower:]' '[:upper:]')
+local totallines=$(_gengettotaldeflen) #//+amount of files
+local totallines=$(expr "$totallines" + "$(ls| wc -l)")
+local totallines=$(expr "$totallines" + "1")
+
+key_latestlongest="0"
+test -e ../key_defs.len && key_latestlongest=$(cat ../key_defs.len)
+[ "$totallines" -gt "$key_latestlongest" ] && echo "$totallines" > ../key_defs.len
+#echo "$totallines"
+
+echo "" > $key_OF
+echo "static Key $folder[KEYS] = {" >> $key_OF
+
+#b_first=""
+
+}
+

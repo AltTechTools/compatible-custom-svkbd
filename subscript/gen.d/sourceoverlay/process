@@ -1,0 +1,14 @@
+#!/bin/sh
+_overlay_process(){
+	#$1 filename
+	case "$1" in
+	"!starting")
+		echo "_overlay_setup";;
+	"!ending")
+		echo "_overlay_ending"
+	;;
+	*)
+		echo "_overlay_default"
+	;;
+	esac
+}

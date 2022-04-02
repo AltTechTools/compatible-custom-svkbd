@@ -1,0 +1,38 @@
+#!/bin/sh
+
+pkeyline(){
+#echo "line: $line"
+local line="$1"
+
+local keyline=$(echo "$1" | grep -c "^static Key keys_")
+if [ $keyline -gt 0 ]; then
+	echo "$linetype"
+	local outputname=$(echo "$line" | awk '{print $1}' FS="[" | sed 's/static Key //')
+	local path="$mainpath/$outputname"
+	[ -d "$path" ] || mkdir -p "$path"
+	pkeyline_path="$path"
+	pkeyline_lnNo=0
+	pkeyline_lnName=""
+
+fi
+
+if [ $keyline -lt 1 ]; then
+	local cleanedline=$(printf "%s" "$line" | sed 's/{ //g'   | sed 's/ }//g')
+	local primsymb=$(printf "%s" "${cleanedline}"|awk '{print $1}' FS=", " | sed 's/ //g')
+	local altsymb=$(printf "%s" "${cleanedline}"|awk '{print $2}' FS=", " | sed 's/ //g')
+	local keysym=$(printf "%s" "${cleanedline}"|awk '{print $3}' FS=", " | sed 's/ //g')
+	local keyscaling=$(printf "%s" "${cleanedline}"|awk '{print $4}' FS=", " | sed 's/ //g' | sed 's/,//g')
+	if [ "$pkeyline_lnName" = "" ]; then
+		pkeyline_lnNo=$(expr $pkeyline_lnNo + 1)
+		pkeyline_lnName="ln_$pkeyline_lnNo"
+		[ -e  "$pkeyline_path/$pkeyline_lnName" ] && rm "$pkeyline_path/$pkeyline_lnName"
+		echo "Key Definition $pkeyline_path/$pkeyline_lnName..."
+	fi
+	local endcount=$(echo "$line" | grep -c "\{ 0 \},")
+	if [ $endcount -gt 0 ]; then
+		pkeyline_lnName=""
+        else
+		printf "%s\n" "${primsymb}${delimiter}${altsymb}${delimiter}${keysym}${delimiter}${keyscaling}" >> "$pkeyline_path/$pkeyline_lnName"
+        fi
+fi
+}

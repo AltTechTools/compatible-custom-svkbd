@@ -1,0 +1,13 @@
+#!/bin/sh
+_buttonmod_default(){
+	key=$(printf "%s\n" "${1}"| awk '{print $1}' FS="${buttonmod_delimiter}")
+	value=$(printf "%s\n" "${1}" | awk '{print $2}' FS="${buttonmod_delimiter}")
+	printf "%s\n" "        { $key, $value }," >> $buttonmod_OF
+}
+
+_buttonmod_ending(){
+	echo "};" >> $buttonmod_OF
+	echo "" >> $buttonmod_OF
+
+}
+

@@ -1,0 +1,10 @@
+#!/bin/sh
+keyline(){
+keyline=$(echo "$1" | grep -c "^static Key keys_")
+if [ $keyline -gt 0 ]; then
+	echo "pkeyline"
+	return 0
+fi
+return 1
+}
+echo "keyline"

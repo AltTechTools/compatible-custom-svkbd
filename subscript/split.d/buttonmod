@@ -1,0 +1,10 @@
+#!/bin/sh
+buttonmod(){
+if [ "$1" = "Buttonmod buttonmods[] = {" ]; then
+	echo "pbuttonmod"
+	return 0
+fi
+return 1
+}
+
+echo "buttonmod"

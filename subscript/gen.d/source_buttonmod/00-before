@@ -1,0 +1,6 @@
+#!/bin/sh
+_buttonmod_before(){
+	buttonmod_delimiter=$(_gendelimiter)
+	buttonmod_OF="_2buttonmods.def"
+	echo "Buttonmod buttonmods[] = {" > $buttonmod_OF
+}

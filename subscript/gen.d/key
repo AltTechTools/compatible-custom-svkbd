@@ -1,0 +1,13 @@
+#!/bin/sh
+_key(){
+	folder="$1"
+	[ "$folder" = "" ] && echo "No Layout Name passed" && exit 0
+	cd "$folder" || exit 1
+	
+	genfolderloop "key"
+
+	cd ..
+}
+_gensource "key"
+
+echo "_key"

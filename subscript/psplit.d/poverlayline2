@@ -1,0 +1,30 @@
+#!/bin/sh
+
+poverlaylinex(){
+local line="$1"
+local outputname="_overlay"
+local path="$mainpath/$outputname"
+[ -d "$path" ] || mkdir -p "$path"
+
+local overlayline=$(echo "$1" | grep -c "^static Key overlay")
+if [ $overlayline -lt 1 ]; then
+	local cleanedline=$(printf "%s" "${line}" | sed 's/{//g'   | sed 's/}//g')
+	local primsymb=$(printf "%s" "${cleanedline}"|awk '{print $1}' FS=", " | sed 's/ //g'| sed 's/"//g')
+	local altsymb=$(printf "%s" "${cleanedline}"|awk '{print $2}' FS=", " | sed 's/ //g')
+	local keysym=$(printf "%s" "${cleanedline}"|awk '{print $3}' FS=", " | sed 's/ //g' | sed 's/,//g')
+	if [ "$poverlayline_overlayonkey" = "" ]; then
+		poverlayline_overlayonkey="$keysym"
+		echo "Overlay for $keysym..."
+		[ -e  "$path/$poverlayline_overlayonkey" ] && rm "$path/$poverlayline_overlayonkey"
+	else
+		if [ "$keysym" = "XK_Cancel" ]; then
+			poverlayline_overlayonkey=""
+		else
+			printf "%s\n" "${primsymb}${delimiter}${altsymb}${delimiter}${keysym}" >> "$path/$poverlayline_overlayonkey"
+		fi
+	fi
+else
+	echo "splitting overlay"
+fi
+
+}

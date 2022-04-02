@@ -1,0 +1,27 @@
+#!/bin/sh
+_overlay_setup(){
+
+overlay_OF="../_0overlay.def"
+overlay_delimiter=$(_gendelimiter)
+if [ $(ls | wc -c) -lt 1 ]; then
+	overlay_totallines=1
+	echo "" > $overlay_OF
+	echo "#define OVERLAYS $overlay_totallines" >> $overlay_OF
+	echo "static Key overlay[OVERLAYS] = {" >>  $overlay_OF
+	echo "{ 0, 0, XK_Cancel }," >>  $overlay_OF
+	echo "};" >>  $overlay_OF
+	echo "" >>  $overlay_OF
+	exit 0
+fi
+
+echo "construct overlay"
+overlay_totallines=$(_gengettotaldeflen)
+overlay_filecnt=$(ls | wc -l)
+overlay_filecnt="$(expr ${overlay_filecnt} \* '2')"
+overlay_totallines=$(expr "$overlay_totallines" + "$overlay_filecnt")
+
+echo "" >  $overlay_OF
+echo "#define OVERLAYS $overlay_totallines" >> $overlay_OF
+echo "static Key overlay[OVERLAYS] = {" >>  $overlay_OF
+
+}

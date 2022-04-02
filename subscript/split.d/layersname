@@ -1,0 +1,10 @@
+#!/bin/sh
+layersname(){
+if [ "$1" = "static char* layer_names[LAYERS] = {" ]; then
+	echo "playersname"
+	return 0
+fi
+return 1
+}
+
+echo "layersname"

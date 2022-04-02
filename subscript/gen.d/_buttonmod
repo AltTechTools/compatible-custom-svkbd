@@ -1,0 +1,10 @@
+#!/bin/sh
+_buttonmods(){
+	echo "buttonmods"
+	_genfileloop "${1}" "buttonmods"
+
+}
+
+_gensource "_buttonmod"
+
+echo "_buttonmods"

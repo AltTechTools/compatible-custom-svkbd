@@ -1,0 +1,10 @@
+#!/bin/sh
+_overlay_default(){
+	_genfilerloop "${1}" "overlayfile"
+}
+
+_overlay_ending(){
+	echo "};" >>  $overlay_OF
+	echo "" >>  $overlay_OF
+}
+

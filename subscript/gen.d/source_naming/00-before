@@ -1,0 +1,11 @@
+#!/bin/sh
+_nameing_before(){
+	naming_delimiter=$(_gendelimiter)
+	naming_OF="_layers.def.name"
+	naming_catOF="_1layers.def"
+	local totallinesLayers=$(wc -l "$1" | awk '{print $1}')
+
+	echo "" > $naming_catOF
+	echo "#define LAYERS $totallinesLayers" > $naming_OF
+	echo "static char* layer_names[LAYERS] = {" >> $naming_OF
+}

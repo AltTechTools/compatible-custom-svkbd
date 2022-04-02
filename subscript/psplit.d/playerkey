@@ -1,0 +1,16 @@
+#!/bin/sh
+
+playerkey(){
+line="$1"
+	if [ "$line" != "static Key* available_layers[LAYERS] = {" ]; then
+		playerkey_layerlineno=$(expr $playerkey_layerlineno + 1)
+		local thiskey=$(echo "$line" | awk '{print $1}' FS=',')
+		local thislayer=$(echo "$playersname_layersnametexts" | awk "NR==$playerkey_layerlineno{print \$0}")
+		echo "$thislayer$delimiter$thiskey" >> "$mainpath/_naming"
+	else
+	#echo "$playersname_layersnametexts"
+		echo "splitting layer key"
+		playerkey_layerlineno=0
+		[ -e "$mainpath/_naming" ] && rm "$mainpath/_naming"
+	fi
+}

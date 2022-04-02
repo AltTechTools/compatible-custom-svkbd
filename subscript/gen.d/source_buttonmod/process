@@ -1,0 +1,15 @@
+#!/bin/sh
+_buttonmods_process(){
+	#$1 filename
+	case "$1" in
+	"!starting")
+		echo "_buttonmod_before"
+	;;
+	"!ending")
+		echo "_buttonmod_ending"
+	;;
+	*)
+		echo "_buttonmod_default"
+	;;
+	esac
+}

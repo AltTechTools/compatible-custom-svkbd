@@ -1,0 +1,11 @@
+#!/bin/sh
+overlayline(){
+
+overlayline=$(echo "$1" | grep -c "^static Key overlay")
+if [ $overlayline -gt 0 ]; then
+        echo "poverlaylinex"
+        return 0
+fi
+exit 1
+}
+echo "overlayline"

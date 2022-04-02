@@ -1,0 +1,4 @@
+#!/bin/sh
+folder=$(pwd | awk '{print $NF}' FS='/')
+cd ..
+./genlayout_definitionClass.sh "$folder"

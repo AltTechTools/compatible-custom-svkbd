@@ -1,0 +1,27 @@
+#!/bin/sh
+
+_overlayfile_process(){
+	case "$1" in
+	"!starting")
+		echo "_overlayfile_before";;
+	"!ending")
+		echo "_overlayfile_ending"
+	;;
+	*)
+		echo "_overlayfile_main"
+	;;
+	esac
+}
+
+_overlayfile_before(){
+	echo "        { 0, 0, $1 }, /* New Definition */" >>  $overlay_OF
+}
+_overlayfile_main(){
+		local title=$(printf "%s" "${1}" | awk '{print $1}' FS="${overlay_delimiter}")
+		local altttl=$(printf "%s" "${1}" | awk '{print $2}' FS="${overlay_delimiter}")
+		local key=$(printf "%s" "${1}" | awk '{print $3}' FS="${overlay_delimiter}")
+		printf "%s\n" "        { \"${title}\", ${altttl}, ${key} }, " >>  $overlay_OF
+}
+_overlayfile_ending(){
+	echo "        { 0, 0, XK_Cancel },  /* XK_Cancel signifies  overlay boundary */" >>  $overlay_OF
+}

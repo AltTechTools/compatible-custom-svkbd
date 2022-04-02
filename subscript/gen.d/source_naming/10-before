@@ -1,0 +1,8 @@
+#!/bin/sh
+_nameing_before2(){
+
+	_nameing_before "$1"
+	naming_OFKeys="_layers.def.keys"
+	echo "static Key* available_layers[LAYERS] = {" > $naming_OFKeys
+
+}

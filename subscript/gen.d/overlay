@@ -1,0 +1,10 @@
+#!/bin/sh
+_overlay(){
+	echo "in overlay"
+	cd _overlay
+	genfolderloop "overlay"
+
+        cd ..
+}
+_gensource "overlay"
+echo "_overlay"

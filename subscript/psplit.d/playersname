@@ -1,0 +1,17 @@
+#!/bin/sh
+
+playersname(){
+	local line="$1"
+	if [ "$line" != "static char* layer_names[LAYERS] = {" ]; then
+		local thislayer=$(echo "$line" | awk '{print $2}' FS='"')
+		#echo "$thislayer"
+		if [ "" = "$playersname_layersnametexts" ]; then
+			playersname_layersnametexts=$(echo "$thislayer")
+		else
+			playersname_layersnametexts=$( echo "$playersname_layersnametexts"; echo "$thislayer" )
+		fi
+		#echo "tnm: $playersname_layersnametexts"
+	else
+		echo "splitting layer names"
+	fi
+}

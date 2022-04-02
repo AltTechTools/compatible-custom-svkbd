@@ -1,0 +1,51 @@
+#!/bin/sh
+_gensource(){
+for f in gen.d/source$1/*
+do
+ source "$f"
+done
+}
+
+_genfileloop(){
+
+	_$2_process "!starting" > .tmp && $(cat .tmp) "$1"
+	for defline in $(cat "$1")
+	do
+		_$2_process "$defline" > .tmp && $(cat .tmp) "$defline"
+	done
+	_$2_process "!ending" > .tmp && $(cat .tmp) "$1"
+	rm .tmp
+}
+_genfilerloop(){
+	_$2_process "!starting" > .tmp && $(cat .tmp) "$1"
+	while read -r line
+        do
+		_$2_process "${line}" > .tmp && $(cat .tmp) "${line}"
+        done < "$1"
+	_$2_process "!ending" > .tmp && $(cat .tmp) "$1"
+}
+genfolderloop(){
+	_$1_process "!starting" > .tmp && $(cat .tmp) "$f"
+        for f in *
+        do
+                _$1_process "$f" > .tmp && $(cat .tmp) "$f"
+        done
+        _$1_process "!ending" > .tmp && $(cat .tmp) "$f"
+        rm .tmp
+
+}
+
+_gendelimiter(){
+echo "{;}"
+}
+
+_gengettotaldeflen(){
+wc -l $(ls) | tail -n 1 - | awk '{print $1}'
+}
+
+_genprintkeys(){
+for filename in $(ls -F | grep "keys_[[:print:]]*/$") #>
+do
+        echo "$(echo $filename | sed 's/\///')"
+done
+}

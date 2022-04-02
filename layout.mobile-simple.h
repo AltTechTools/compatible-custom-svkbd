@@ -407,6 +407,7 @@ static Key overlay[OVERLAYS] = {
         { 0, 0, XK_Cancel },  /* XK_Cancel signifies  overlay boundary */
 };
 
+
 #define LAYERS 4
 static char* layer_names[LAYERS] = {
        "lazyen",
@@ -426,3 +427,4 @@ Buttonmod buttonmods[] = {
         { XK_Shift_L, Button2 },
         { XK_Alt_L, Button3 },
 };
+

@@ -1,4 +1,4 @@
-#define KEYS 47
+#define KEYS 42
 
 static Key keys_en[KEYS] = {
         { 0, 0, XK_q, 1 }, 
@@ -115,6 +115,7 @@ static Key overlay[OVERLAYS] = {
 { 0, 0, XK_Cancel },
 };
 
+
 #define LAYERS 2
 static char* layer_names[LAYERS] = {
        "en",
@@ -130,3 +131,4 @@ Buttonmod buttonmods[] = {
         { XK_Shift_L, Button2 },
         { XK_Alt_L, Button3 },
 };
+

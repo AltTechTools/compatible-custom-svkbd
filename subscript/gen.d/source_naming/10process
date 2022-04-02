@@ -1,0 +1,15 @@
+#!/bin/sh
+_nameing_process(){
+	#$1 filename
+	case "$1" in
+	"!starting")
+		echo "_nameing_before2"
+	;;
+	"!ending")
+		echo "_nameing_ending2"
+	;;
+	*)
+		echo "_nameing_default2"
+	;;
+	esac
+}

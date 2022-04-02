@@ -1,0 +1,25 @@
+#!/bin/sh
+
+_0keys_def(){
+	#echo "keydef $PWD"
+	echo "#define KEYS $(cat key_defs.len)" > $outputfile
+	cat "$1" >> $outputfile
+}
+
+_0overlay_def(){
+	echo "Copy one-time Definitions"
+	cat "$1" >> $outputfile
+}
+
+_1layers_def(){
+cat "$1" >> $outputfile
+}
+
+_2buttonmods_def(){
+cat "$1" >> $outputfile
+}
+
+_3keyactions_def(){
+cat "$1" >> $outputfile
+}
+#./clean.sh

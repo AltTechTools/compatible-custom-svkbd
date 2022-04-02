@@ -1,0 +1,14 @@
+#!/bin/sh
+_nameing_default2(){
+	local valuekeys=$(printf "%s\n" "${defline}" | awk '{print $2}' FS="${naming_delimiter}")
+	printf "%s\n" "        ${valuekeys}," >> $naming_OFKeys
+	_nameing_default "${1}"
+}
+
+_nameing_ending2(){
+	echo "};" >> $naming_OFKeys
+	echo "" >> $naming_OFKeys
+	_nameing_ending "${1}"
+	cat $naming_OFKeys >> $naming_catOF
+	rm $naming_OFKeys
+}

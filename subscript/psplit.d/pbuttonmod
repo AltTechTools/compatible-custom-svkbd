@@ -1,0 +1,14 @@
+#!/bin/sh
+
+pbuttonmod(){
+	local line="$1"
+	if [ "$line" != "Buttonmod buttonmods[] = {" ]; then
+		local cleanedline=$(echo "$line" | sed 's/ //g' | sed 's/{//' | sed 's/}//')
+		local key=$(echo "${cleanedline}" | awk '{print $1}' FS=',')
+		local button=$(echo "${cleanedline}" | awk '{print $2}' FS=',')
+        	echo "$key$delimiter$button" >> "$mainpath/_buttonmods"
+	else
+		echo "$linetype"
+		[ -e "$mainpath/_buttonmods" ] && rm "$mainpath/_buttonmods"
+	fi
+}

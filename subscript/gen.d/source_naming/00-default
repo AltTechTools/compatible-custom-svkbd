@@ -1,0 +1,12 @@
+#!/bin/sh
+_nameing_default(){
+		local valuename=$(printf "%s\n" "${1}" | awk '{print $1}' FS="${naming_delimiter}")
+		printf "%s\n" "       \"${valuename}\"," >> $naming_OF
+}
+
+_nameing_ending(){
+	echo "};" >> $naming_OF
+	echo "" >> $naming_OF
+	cat $naming_OF >> $naming_catOF
+	rm $naming_OF
+}

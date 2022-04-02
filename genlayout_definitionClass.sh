@@ -6,26 +6,38 @@ if [ "$1" = "" ]; then
   folder=$(ls -F | grep "/$" | grep -v "subscript/" | dmenu -p "Select Layout Folder: " | sed 's/\///')
   [ "$folder" = "" ] && echo "nichts gewählt" && exit 0
 fi
+[ -d "$folder" ] || (echo "$folder existiert nicht"; exit)
 
 outputfile="../layout.$folder.h"
+[ -e "$outputfile" ] && rm "$outputfile"
 
 cd "$folder"
+[ -e "_0keys.def" ] && rm _0keys.def
 
 for subscript in $(ls ../subscript/)
 do
+	printf "%s/" "$subscript"
 	ln -s -f "../subscript/$subscript" "$subscript"
 done
 
-./construct_defs.sh
-echo "#define KEYS $(cat key_defs.len)" > $outputfile
-
-for subdef in $(./printkeys.sh)
+for f in ./gen.d/*
 do
-	echo "Copy $subdef"
-	cat "$subdef.def" >> $outputfile
+	[ -f "$f" ] && source "$f"
 done
 
-echo "Copy one-time Definitions"
-cat "_overlay.def" >> $outputfile
-cat "_layers.def" >> $outputfile
-cat "_buttonmods.def" >> $outputfile
+for f in $(ls | grep -v "\.def$")
+do
+	if [ $(echo "$f" | grep -c "keys_") -gt 0 ]
+	then
+		[ -f "$f" ] || _key "$f"
+	else
+	        [ -L "$f" ] || ([ -e "$f" ] && type "$f" > /dev/null 2>&1 && "$f" "$f")
+	fi
+done
+
+for f in *.def
+do
+	x=$(echo "$f" |  sed 's/\./_/')
+	"$x" "$f"
+done
+./clean.sh

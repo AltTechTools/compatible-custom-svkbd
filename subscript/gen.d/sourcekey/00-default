@@ -1,0 +1,11 @@
+#!/bin/sh
+_key_default(){
+	_genfilerloop "${1}" "keyfile"
+}
+
+_key_ending(){
+	{ echo ""; echo  "        { 0 }, /* ending row */"; echo ""; } >> $key_OF
+	echo "};" >>  $key_OF
+	cat $key_OF >> $key_catOF
+	rm $key_OF
+}

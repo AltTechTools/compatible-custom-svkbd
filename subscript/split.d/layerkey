@@ -1,0 +1,10 @@
+#!/bin/sh
+layerkey(){
+if [ "$1" = "static Key* available_layers[LAYERS] = {" ]; then
+	echo "playerkey"
+	return 0
+fi
+return 1
+}
+
+echo "layerkey"

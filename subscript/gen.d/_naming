@@ -1,0 +1,10 @@
+#!/bin/sh
+_naming(){
+	echo "naming"
+	_genfileloop "${1}" "nameing"
+
+}
+
+_gensource "_naming"
+
+echo "_naming"
