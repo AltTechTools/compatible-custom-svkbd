@@ -1,0 +1,6 @@
+#!/bin/sh
+_keyaction_before(){
+	keyact_delimiter=$(_gendelimiter)
+	keyact_OF="_3keyactions.def"
+	echo "Keyaction keyactions[] = {" > $keyact_OF
+}

@@ -485,3 +485,10 @@ Buttonmod buttonmods[] = {
         { XK_Alt_L, Button3 },
 };
 
+Keyaction keyactions[] = {
+        { XK_Cancel, "andr-symbols1" },
+        { XK_Mode_switch, "ch-android" },
+        { XK_KP_Insert, "andr-symbols2" },
+        { XK_Break, "break" },
+        { XK_Shift_L, "shift" },
+};

@@ -1,0 +1,10 @@
+#!/bin/sh
+keyactions(){
+if [ "$1" = "Keyaction keyactions[] = {" ]; then
+	echo "pkeyactions"
+	return 0
+fi
+return 1
+}
+
+echo "keyactions"

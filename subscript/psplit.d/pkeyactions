@@ -1,0 +1,15 @@
+#!/bin/sh
+
+pkeyactions(){
+	local line="$1"
+	if [ "$line" != "Keyaction keyactions[] = {" ]; then
+		local cleanedline=$(echo "$line" | sed 's/ //g' | sed 's/{//' | sed 's/}//' | sed 's/"//g')
+		local key=$(echo "${cleanedline}" | awk '{print $1}' FS=',')
+		local keyaction=$(echo "${cleanedline}" | awk '{print $2}' FS=',')
+		echo "$key$delimiter$keyaction" >> "$mainpath/_keyactions"
+	else
+		echo "$linetype"
+		[ -e "$mainpath/_keyactions" ] && rm "$mainpath/_keyactions"
+	fi
+
+}

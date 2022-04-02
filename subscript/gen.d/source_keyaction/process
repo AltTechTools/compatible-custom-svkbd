@@ -1,0 +1,15 @@
+#!/bin/sh
+_keyactions_process(){
+	#$1 filename
+	case "$1" in
+	"!starting")
+		echo "_keyaction_before"
+	;;
+	"!ending")
+		echo "_keyaction_ending"
+	;;
+	*)
+		echo "_keyaction_default"
+	;;
+	esac
+}

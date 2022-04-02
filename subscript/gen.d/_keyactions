@@ -1,0 +1,9 @@
+#!/bin/sh
+_keyactions(){
+	echo "keyaction"
+	_genfileloop "${1}" "keyactions"
+}
+
+_gensource "_keyaction"
+echo "_keyactions"
+

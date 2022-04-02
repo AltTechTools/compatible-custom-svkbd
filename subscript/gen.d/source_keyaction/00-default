@@ -1,0 +1,10 @@
+#!/bin/sh
+_keyaction_default(){
+	key=$(printf "%s\n" "${defline}"| awk '{print $1}' FS="${keyact_delimiter}")
+	value=$(printf "%s\n" "${defline}" | awk '{print $2}' FS="${keyact_delimiter}")
+	printf "%s\n" "        { $key, \"$value\" }," >> $keyact_OF
+}
+
+_keyaction_ending(){
+	echo "};" >> $keyact_OF
+}
