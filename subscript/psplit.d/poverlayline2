@@ -24,6 +24,7 @@ if [ $overlayline -lt 1 ]; then
 		fi
 	fi
 else
+	poverlayline_overlayonkey=""
 	echo "splitting overlay"
 fi
 

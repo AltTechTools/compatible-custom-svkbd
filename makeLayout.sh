@@ -14,7 +14,9 @@ makelayout(){
 		all || return 1
 		return 0
 	fi
-	sudo make install LAYOUT="$1" && return 0
+	opt=""
+	[ "$SUDO_ASKPASS" != "" ] && opt="-A"
+	sudo $opt make install LAYOUT="$1" && return 0
 	return 1
 }
 
