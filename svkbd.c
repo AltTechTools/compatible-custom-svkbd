@@ -195,7 +195,6 @@ motionnotify(XEvent *e)
 void
 buttonpress(XEvent *e)
 {
-	fprintf(stderr, "buttonpress");
 	XButtonPressedEvent *ev = &e->xbutton;
 	Key *k;
 	KeySym mod = 0;
