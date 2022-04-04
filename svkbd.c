@@ -36,9 +36,15 @@
 
 /* enums */
 enum {
-	SchemeNorm, SchemeNormABC, SchemeNormABCShift, SchemeNormShift, SchemePress,
-	SchemePressShift, SchemeHighlight, SchemeHighlightShift, SchemeOverlay,
-	SchemeOverlayShift, SchemeWindow, SchemeLast
+	SchemeNorm, SchemeNormShift,
+	SchemeNormABC, SchemeNormABCShift, 
+	SchemePress, SchemePressShift, 
+	SchemeHighlight, SchemeHighlightShift, 
+	SchemeOverlay, SchemeOverlayShift, 
+	Scheme1Cust, Scheme1CustShift, 
+	Scheme2Cust, Scheme2CustShift, 
+	Scheme3Cust, Scheme3CustShift, 
+	SchemeWindow, SchemeLast
 };
 enum { NetWMWindowType, NetLast };
 
@@ -48,6 +54,7 @@ typedef struct {
 	char *label2;
 	KeySym keysym;
 	double width;
+	int custscheme; // new fud here
 	KeySym modifier;
 	int x, y, w, h;
 	Bool pressed;
@@ -133,10 +140,13 @@ static int debug = 0;
 static int numlayers = 0;
 static int numkeys = 0;
 
-static char *colors[11][2]; /* 11 schemes, 2 colors each */
+static char *colors[SchemeLast][2]; /* 11 schemes, 2 colors each */
 static char *fonts[] = { 0 };
+static char *shiftfonts[] = { 0 };
 
 static KeySym ispressingkeysym;
+Fnt *mainfontset;
+Fnt *shiftfontset;
 
 Bool ispressing = False;
 Bool sigtermd = False;
@@ -344,6 +354,8 @@ drawkey(Key *k, Bool map)
 		use_scheme = SchemeHighlight;
 	else if (k->isoverlay)
 		use_scheme = SchemeOverlay;
+	else if (k->custscheme >= 0)
+		use_scheme = k->custscheme;
 	else if ((k->keysym == XK_Return) ||
 			((k->keysym >= XK_a) && (k->keysym <= XK_z)) ||
 			((k->keysym >= XK_Cyrillic_io) && (k->keysym <= XK_Cyrillic_hardsign)))
@@ -382,11 +394,19 @@ drawkey(Key *k, Bool map)
 		else if (use_scheme == SchemeOverlay)
 			use_scheme = SchemeOverlayShift;
 		drw_setscheme(drw, scheme[use_scheme]);
-		x += w;
-		y -= 15;
+		drw_setfontset(drw, shiftfontset);
+		//x += w;
+		//y -= 15;
+		h = shiftfontsize *1.5;
+		y = k->y + (yspacing/2); //y -(h / 2);
+		if(y < k->y)
+			y=k->y;
 		l = k->label2;
 		w = TEXTW(l);
+		//tst fud
+		x = k->x + (k->w / 2) - (w / 2);
 		drw_text(drw, x, y, w, h, 0, l, 0);
+		drw_setfontset(drw, mainfontset);
 	}
 	if (map)
 		drw_map(drw, win, k->x, k->y, k->w, k->h);
@@ -822,6 +842,8 @@ readxresources(void)
 
 		if (XrmGetResource(xdb, "svkbd.font", "*", &type, &xval) && !fonts[0])
 			fonts[0] = estrdup(xval.addr);
+		if (XrmGetResource(xdb, "svkbd.font", "*", &type, &xval) && !shiftfonts[0])
+			shiftfonts[0] = estrdup(xval.addr);
 
 		if (XrmGetResource(xdb, "svkbd.background", "*", &type, &xval) && !colors[SchemeNorm][ColBg])
 			colors[SchemeNorm][ColBg] = estrdup(xval.addr);
@@ -925,9 +947,17 @@ setup(void)
 				colors[i][j] = estrdup(defaultcolors[i][j]);
 		}
 	}
+	if (!shiftfonts[0])
+		shiftfonts[0] = estrdup(defaultshiftfonts[0]);
+
+	if (!drw_fontset_create(drw, (const char **) shiftfonts, LENGTH(shiftfonts)))
+		die("no shiftfonts could be loaded");
+	shiftfontset = drw->fonts;
+	free(shiftfonts[0]);
 
 	if (!drw_fontset_create(drw, (const char **) fonts, LENGTH(fonts)))
 		die("no fonts could be loaded");
+	mainfontset = drw->fonts;
 	free(fonts[0]);
 
 	drw_setscheme(drw, scheme[SchemeNorm]);

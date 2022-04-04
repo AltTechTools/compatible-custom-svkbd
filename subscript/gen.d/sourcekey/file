@@ -18,8 +18,10 @@ _keyfile_main(){
  		local otherchars=$(printf "%s" "${line}" | awk '{print $2}' FS="${key_delimiter}")   #";")
 		local key=$(printf "%s" "${line}" | awk '{print $3}' FS="${key_delimiter}") #";")
 		local sizeing=$(printf "%s" "${line}" | awk '{print $4}' FS="${key_delimiter}")  #";")
+		local scheme=$(printf "%s" "${line}" | awk '{print $5}' FS="${key_delimiter}")
+		[ "$scheme" = "" ] && local scheme="-1"
 
-                printf "%s\n" "        { ${title}, ${otherchars}, ${key}, ${sizeing} }, " >>  $key_OF
+                printf "%s\n" "        { ${title}, ${otherchars}, ${key}, ${sizeing}, ${scheme}  }, " >>  $key_OF
 }
 _keyfile_ending(){
 	{ echo ""; echo  "        { 0 }, /* New row */";echo ""; } >> $key_OF

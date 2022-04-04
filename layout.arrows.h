@@ -1,12 +1,12 @@
 #define KEYS 8
 
 static Key keys_arrows[KEYS] = {
-        { 0, 0, XK_Shift_L, 2 }, 
-        { "←", 0, XK_Left, 1 }, 
-        { "↓", 0, XK_Down, 1 }, 
-        { "↑", 0, XK_Up, 1 }, 
-        { "→", 0, XK_Right, 1 }, 
-        { "Alt", 0, XK_Alt_L, 2 }, 
+        { 0, 0, XK_Shift_L, 2, -1  }, 
+        { "←", 0, XK_Left, 1, -1  }, 
+        { "↓", 0, XK_Down, 1, -1  }, 
+        { "↑", 0, XK_Up, 1, -1  }, 
+        { "→", 0, XK_Right, 1, -1  }, 
+        { "Alt", 0, XK_Alt_L, 2, -1  }, 
 
         { 0 }, /* New row */
 
