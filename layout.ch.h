@@ -1,4 +1,4 @@
-#define KEYS 66
+#define KEYS 67
 
 static Key keys_ch[KEYS] = {
         { "1", "+|", XK_1, 1, SchemeOverlay  }, 
@@ -66,6 +66,7 @@ static Key keys_ch[KEYS] = {
         { 0 }, /* New row */
 
         { "Ctrl", 0, XK_Control_L, 2, -1  }, 
+        { "fn", 0, XK_Break, 1, -1  }, 
         { "⌘", 0, XK_Super_L, 2, SchemeHighlight  }, 
         { "A", 0, XK_Alt_L, 2, -1  }, 
         { "", 0, XK_space, 5, SchemeHighlight  }, 
@@ -82,16 +83,16 @@ static Key keys_ch[KEYS] = {
 };
 
 static Key keys_functions[KEYS] = {
-        { "F1", 0, XK_F1, 1, -1  }, 
-        { "F2", 0, XK_F2, 1, -1  }, 
-        { "F3", 0, XK_F3, 1, -1  }, 
-        { "F4", 0, XK_F4, 1, -1  }, 
-        { "F5", 0, XK_F5, 1, -1  }, 
-        { "F6", 0, XK_F6, 1, -1  }, 
-        { "F7", 0, XK_F7, 1, -1  }, 
-        { "F8", 0, XK_F8, 1, -1  }, 
-        { "F9", 0, XK_F9, 1, -1  }, 
-        { "F10", 0, XK_F10, 1, -1  }, 
+        { "F1", 0, XK_F1, 1, SchemeOverlay  }, 
+        { "F2", 0, XK_F2, 1, SchemeOverlay  }, 
+        { "F3", 0, XK_F3, 1, SchemeOverlay  }, 
+        { "F4", 0, XK_F4, 1, SchemeOverlay  }, 
+        { "F5", 0, XK_F5, 1, SchemeOverlay  }, 
+        { "F6", 0, XK_F6, 1, SchemeOverlay  }, 
+        { "F7", 0, XK_F7, 1, SchemeOverlay  }, 
+        { "F8", 0, XK_F8, 1, SchemeOverlay  }, 
+        { "F9", 0, XK_F9, 1, SchemeOverlay  }, 
+        { "F10", 0, XK_F10, 1, SchemeOverlay  }, 
 
         { 0 }, /* New row */
 
@@ -108,15 +109,15 @@ static Key keys_functions[KEYS] = {
 
         { 0 }, /* New row */
 
-        { "↺", 0, XK_Cancel, 1, -1  }, 
+        { "↺", 0, XK_Cancel, 1, SchemeHighlight  }, 
         { "Shift", 0, XK_Shift_L, 2, -1  }, 
         { "Ctrl", 0, XK_Control_L, 1, -1  }, 
         { "Alt", 0, XK_Alt_L, 1, -1  }, 
-        { "", 0, XK_space, 2, -1  }, 
+        { "", 0, XK_space, 2, SchemeNormABC  }, 
         { "↓", 0, XK_Down, 1, -1  }, 
         { "↑", 0, XK_Up, 1, -1  }, 
         { "Esc", 0, XK_Escape, 1, -1  }, 
-        { "↲Enter", 0, XK_Return, 2, -1  }, 
+        { "↲Enter", 0, XK_Return, 2, SchemePress  }, 
 
         { 0 }, /* New row */
 
@@ -142,7 +143,7 @@ static Key keys_navigation[KEYS] = {
 
         { 0 }, /* New row */
 
-        { "↺", 0, XK_Cancel, 1, -1  }, 
+        { "↺", 0, XK_script_switch, 1, -1  }, 
         { "⌫Bksp", 0, XK_BackSpace, 1, -1  }, 
         { "↓", 0, XK_Down, 1, SchemeOverlay  }, 
         { "Tab", 0, XK_Tab, 1, -1  }, 
@@ -218,5 +219,5 @@ Keyaction keyactions[] = {
         { XK_script_switch, "togglelayer" },
         { XK_Mode_switch, "togglelayer" },
         { XK_KP_Insert, "overlaytoggle" },
-        { XK_Break, "break" },
+        { XK_Break, "function" },
 };
